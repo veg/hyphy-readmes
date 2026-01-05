@@ -12,6 +12,11 @@ BUSTED-PH performs three distinct statistical tests to ensure that the detected 
 2.  **Test for Selection on BG**: Is there evidence of positive selection on the background branches?
 3.  **Test for Difference**: Is the selective regime (distribution of $\omega$ rates) significantly different between FG and BG branches?
 
+BUSTED-PH acts as a wrapper analysis that passes most user options to the underlying BUSTED method. It executes BUSTED three times to perform the tests above:
+-   Once for the **Foreground (FG)** branches.
+-   Once for the **Background (BG)** branches.
+-   Once using a model where **all branches** share the same selective regime (used as a null model for the "Test for Difference").
+
 Trait-associated positive selection is inferred when there is significant selection on FG, no significant selection on BG, and a significant difference between the two.
 
 ## Citation
