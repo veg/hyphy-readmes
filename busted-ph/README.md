@@ -31,6 +31,9 @@ To run BUSTED-PH, you need:
     *   The tree must have branches partitioned into **Foreground** (phenotype present) and **Background** (phenotype absent).
     *   This is typically done by labeling the tree string (e.g., `{FG}` tags) or using an annotation file.
 
+    **Example of a Labeled Tree**:
+    ![Labeled Tree](tree.png)
+
 ## Usage
 BUSTED-PH is implemented in HyPhy (version 2.5.73 or later).
 
