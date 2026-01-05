@@ -57,7 +57,7 @@ hyphy busted-ph --alignment path/to/alignment.fasta --tree path/to/tree.nwk --br
 ### Input
 - **Alignment**: `data/prestin.nex` (Contains alignment and tree labeled with `{ECHOLOCATORS}`)
 
-### Output Summary (Example)
+### Output Summary (Example 1: Convergent Evolution)
 Running BUSTED-PH on `prestin.nex` with `{ECHOLOCATORS}` as foreground:
 
 *   **Test for Selection on FG**: p = 0.0168 (Significant)
@@ -65,7 +65,17 @@ Running BUSTED-PH on `prestin.nex` with `{ECHOLOCATORS}` as foreground:
 *   **Test for Difference**: p < 0.0001 (Significant)
 *   **Conclusion**: "Selection is associated with the phenotype / trait"
 
-This indicates that the *Prestin* gene is under positive selection specifically in the echolocating lineages, supporting the hypothesis of convergent evolution for echolocation.
+This indicates that the *Prestin* (SLC26A5) gene is under positive selection specifically in the echolocating lineages, supporting the hypothesis of convergent evolution for echolocation. *Prestin* is a canonical positive control for this type of analysis because it has been shown to be critical for high-frequency sensitivity in the inner ear of echolocating bats and marine mammals, exhibiting clear signatures of convergent adaptive evolution (Li et al. 2008; Li et al. 2010).
+
+### Output Summary (Example 2: Pervasive Selection)
+Running BUSTED-PH on `IFI16.nex` with `{FOREGROUND}` as foreground:
+
+*   **Test for Selection on FG**: p < 0.0001 (Significant)
+*   **Test for Selection on BG**: p < 0.0001 (Significant)
+*   **Test for Difference**: p < 0.0001 (Significant)
+*   **Conclusion**: "Selection is acting on the branches with the phenotype / trait, but is **also** acting on background branches. There is a significant difference between test and background branches in terms of selective pressure"
+
+This result suggests that *IFI16* (Interferon Gamma Inducible Protein 16) is under pervasive positive selection across the entire mammalian phylogeny, not just in the foreground lineages. However, the selective pressure significantly differs in magnitude or mode between the two groups. *IFI16* is an antiviral gene involved in innate immune response, and such genes are often subject to ongoing "arms races" with pathogens, leading to widespread adaptive evolution.
 
 ### Key Arguments
 | Argument | Description | Default |
