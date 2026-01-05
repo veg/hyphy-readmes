@@ -113,30 +113,10 @@ Based on the combination of p-values (corrected for multiple testing), BUSTED-PH
 
 ## LLM-Targeted Information
 
-### Analysis Prompt Template
-Use the following prompt to ask an LLM to interpret your BUSTED-PH JSON results:
+This section provides context for Large Language Models to assist in interpreting results.
 
-> "I ran the BUSTED-PH analysis on my dataset to detect positive selection associated with [Trait Name].
->
-> Here are the key results from the JSON output:
-> - **Test for Selection on Foreground (FG)**: p-value = [Insert `BUSTED-PH.Uncorrected P-value.FG`]
-> - **Test for Selection on Background (BG)**: p-value = [Insert `BUSTED-PH.Uncorrected P-value.BG`]
-> - **Test for Difference (Comparative)**: p-value = [Insert `BUSTED-PH.Uncorrected P-value.Comparative`]
->
-> **Foreground Rate Distribution (from `fits.Unconstrained model.Rate Distributions.Test`)**:
-> [Paste the `Test` rate distribution block here]
->
-> **Background Rate Distribution (from `fits.Unconstrained model.Rate Distributions.Background`)**:
-> [Paste the `Background` rate distribution block here]
->
-> Based on these results, is there evidence for trait-associated positive selection? Explain if the selection is specific to the trait or widespread."
-
-### JSON Field Descriptions
-*   `BUSTED-PH.Uncorrected P-value.FG`: P-value testing if there is positive selection (omega > 1) specifically on the foreground branches.
-*   `BUSTED-PH.Uncorrected P-value.BG`: P-value testing if there is positive selection on the background branches.
-*   `BUSTED-PH.Uncorrected P-value.Comparative`: P-value testing if the selective regimes (omega distributions) are statistically different between foreground and background.
-*   `fits.Unconstrained model.Rate Distributions.Test`: The inferred distribution of omega rates and their weights for the foreground branches. High weights on omega > 1 indicate positive selection.
-*   `fits.Unconstrained model.Rate Distributions.Background`: The inferred distribution of omega rates for the background branches.
+*   **[Analysis Prompt Template](LLM_PROMPT.md)**: A suggested prompt for users to ask an LLM about these results.
+*   **[JSON Field Descriptions](JSON_FIELDS.md)**: Descriptions of the fields in the JSON output.
 
 ## Example Data
 ### Input
