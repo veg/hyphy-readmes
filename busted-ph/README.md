@@ -115,6 +115,9 @@ The primary output is a JSON file (usually named `[alignment].json` or `[alignme
     *   `Constrained model`: The null model for the selection tests.
     *   `Same distributions model`: The null model for the difference test (FG and BG share distributions).
 
+### Visualization
+The JSON output can be visualized using the [BUSTED notebook](https://observablehq.com/@spond/busted). Note that this notebook will display the information for the FG analysis only.
+
 ## Interpretation
 A gene is considered to exhibit **trait-associated episodic diversifying selection (EDS)** if it meets the following criteria:
 
