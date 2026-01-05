@@ -43,7 +43,7 @@ hyphy busted-ph --alignment path/to/alignment.fasta --tree path/to/tree.nwk --br
 | Argument | Description | Default |
 | :--- | :--- | :--- |
 | `--alignment` | Path to the codon alignment file. | Required |
-| `--tree` | Path to the phylogenetic tree file (if not included in alignment). | Required |
+| `--tree` | Path to the phylogenetic tree file (if not included in alignment). | Derived from alignment if omitted |
 | `--branches` | The label in the tree file denoting the Foreground branches. | Required |
 | `--rates` | Number of rate classes (k). The paper suggests k=2 or k=3. | 3 |
 | `--error-sink` | Enable BUSTED-E style error mitigation (Yes/No). Useful for noisy alignments. | No |
@@ -56,23 +56,25 @@ BUSTED-PH produces a JSON file containing the detailed results of the model fits
 The console will print the progress of the likelihood optimization and a summary of the three likelihood ratio tests (LRTs).
 
 ### JSON Output
-The primary output is a JSON file (usually named `[alignment].json`).
+The primary output is a JSON file (usually named `[alignment].json` or `[alignment].BUSTED.json`).
 
-*   **`test results`**: Contains the p-values for the three main tests:
-    *   `FG` (Selection on Foreground)
-    *   `BG` (Selection on Background)
-    *   `SHARED` (Difference between FG and BG)
-*   **`fits`**: Detailed parameter estimates for the different models (Alternative, Nulls).
-*   **`rate distributions`**: The inferred distributions of $\omega$ (dN/dS) for FG and BG branches.
+*   **`BUSTED-PH`**: The high-level summary of the phenotype association tests.
+    *   `Corrected P-value`: P-values adjusted for multiple testing (if applicable).
+    *   `Uncorrected P-value`: Raw p-values for the three tests (`FG`, `BG`, `Comparative` (Difference)).
+    *   `Summary`: A text summary of the conclusion (e.g., "Selection is associated with the phenotype / trait").
+*   **`fits`**: Detailed parameter estimates for the different models.
+    *   `Unconstrained model`: The full model where FG and BG have independent rate distributions. Look here for the inferred $\omega$ values (`Rate Distributions`).
+    *   `Constrained model`: The null model for the selection tests.
+    *   `Same distributions model`: The null model for the difference test (FG and BG share distributions).
 
 ## Interpretation
 A gene is considered to exhibit **trait-associated episodic diversifying selection (EDS)** if it meets the following criteria:
 
 1.  **Selection on FG**: Significant p-value ($p < 0.05$) for the FG test.
 2.  **No Selection on BG**: Non-significant p-value ($p > 0.05$) for the BG test.
-3.  **Significant Difference**: Significant p-value ($p < 0.05$) for the Difference test.
+3.  **Significant Difference**: Significant p-value ($p < 0.05$) for the Difference (`Comparative`) test.
 
-**Note**: P-values should be corrected for multiple testing (e.g., Holm-Bonferroni) if analyzing many genes. The "Difference" test is crucial to rule out genes that are under selection across the entire tree (not just the trait lineages).
+**Note**: The "Difference" test is crucial to rule out genes that are under selection across the entire tree (not just the trait lineages).
 
 ## LLM-Targeted Information
 
@@ -81,18 +83,36 @@ Use the following prompt to ask an LLM to interpret your BUSTED-PH JSON results:
 
 > "I ran the BUSTED-PH analysis on my dataset to detect positive selection associated with [Trait Name].
 >
-> Here are the key p-values from the JSON output:
-> - **Test for Selection on Foreground (FG)**: [Insert p-value]
-> - **Test for Selection on Background (BG)**: [Insert p-value]
-> - **Test for Difference (FG vs BG)**: [Insert p-value]
+> Here are the key results from the JSON output:
+> - **Test for Selection on Foreground (FG)**: p-value = [Insert `BUSTED-PH.Uncorrected P-value.FG`]
+> - **Test for Selection on Background (BG)**: p-value = [Insert `BUSTED-PH.Uncorrected P-value.BG`]
+> - **Test for Difference (Comparative)**: p-value = [Insert `BUSTED-PH.Uncorrected P-value.Comparative`]
 >
-> Based on these results, is there evidence for trait-associated positive selection? Explain if the selection is specific to the trait or widespread. Also, look at the `fits` section if available to see the estimated omega values."
+> **Foreground Rate Distribution (from `fits.Unconstrained model.Rate Distributions.Test`)**:
+> [Paste the `Test` rate distribution block here]
+>
+> **Background Rate Distribution (from `fits.Unconstrained model.Rate Distributions.Background`)**:
+> [Paste the `Background` rate distribution block here]
+>
+> Based on these results, is there evidence for trait-associated positive selection? Explain if the selection is specific to the trait or widespread."
 
 ### JSON Field Descriptions
-*   `test results.p-values.FG`: P-value testing if there is positive selection (omega > 1) specifically on the foreground branches.
-*   `test results.p-values.BG`: P-value testing if there is positive selection on the background branches.
-*   `test results.p-values.SHARED`: P-value testing if the selective regimes (omega distributions) are statistically different between foreground and background.
-*   `fits.Unconstrained model.Rate Distributions.FG`: The distribution of omega rates and their weights inferred for the foreground branches. High weights on omega > 1 indicate positive selection.
+*   `BUSTED-PH.Uncorrected P-value.FG`: P-value testing if there is positive selection (omega > 1) specifically on the foreground branches.
+*   `BUSTED-PH.Uncorrected P-value.BG`: P-value testing if there is positive selection on the background branches.
+*   `BUSTED-PH.Uncorrected P-value.Comparative`: P-value testing if the selective regimes (omega distributions) are statistically different between foreground and background.
+*   `fits.Unconstrained model.Rate Distributions.Test`: The inferred distribution of omega rates and their weights for the foreground branches. High weights on omega > 1 indicate positive selection.
+*   `fits.Unconstrained model.Rate Distributions.Background`: The inferred distribution of omega rates for the background branches.
 
 ## Example Data
-- **Expected Output**: `data/example.json`
+### Input
+- **Alignment**: `data/prestin.nex` (Contains alignment and tree labeled with `{ECHOLOCATORS}`)
+
+### Output Summary (Example)
+Running BUSTED-PH on `prestin.nex` with `{ECHOLOCATORS}` as foreground:
+
+*   **Test for Selection on FG**: p = 0.0168 (Significant)
+*   **Test for Selection on BG**: p = 0.5000 (Not significant)
+*   **Test for Difference**: p < 0.0001 (Significant)
+*   **Conclusion**: "Selection is associated with the phenotype / trait"
+
+This indicates that the *Prestin* gene is under positive selection specifically in the echolocating lineages, supporting the hypothesis of convergent evolution for echolocation.
