@@ -50,12 +50,19 @@ hyphy busted-ph --alignment path/to/alignment.fasta --tree path/to/tree.nwk --br
 ### Key Arguments
 | Argument | Description | Default |
 | :--- | :--- | :--- |
-| `--alignment` | Path to the codon alignment file. | Required |
-| `--tree` | Path to the phylogenetic tree file (if not included in alignment). | Derived from alignment if omitted |
-| `--branches` | The label in the tree file denoting the Foreground branches. | Required |
-| `--rates` | Number of rate classes (k). The paper suggests k=2 or k=3. | 3 |
-| `--error-sink` | Enable BUSTED-E style error mitigation (Yes/No). Useful for noisy alignments. | No |
-| `--srv` | Enable Synonymous Rate Variation (Yes/No). | Yes |
+| `--alignment` | Path to the in-frame codon alignment file (supported formats). | Required |
+| `--tree` | Path to the phylogenetic tree file (if not included in alignment). | Derived from alignment |
+| `--branches` | The label in the tree file denoting the Foreground (FG) branches to test for association. | Required |
+| `--rates` | Number of omega rate classes (k) to include in the model (1-10). | 3 |
+| `--srv` | Include synonymous rate variation (SRV) in the model (Yes/No). | Yes |
+| `--syn-rates` | Number of synonymous rate classes if SRV is enabled (1-10). | 3 |
+| `--multiple-hits` | Support for multiple nucleotide substitutions (None, Double, Double+Triple). | None |
+| `--error-sink` | Enable a specific rate class to capture alignment errors (Yes/No). | No |
+| `--error-sink-bound` | Lower bound for the error class dN/dS (Advanced). | 100 |
+| `--error-sink-weight` | Maximum weight allowed for the error class (Advanced). | 0.01 |
+| `--grid-size` | Number of points for the initial distributional guess grid search. | 250 |
+| `--starting-points` | Number of initial random guesses for optimization. | 1 |
+| `--code` | Genetic code to use (Universal, Vertebrate mtDNA, etc.). | Universal |
 
 ## Outputs
 BUSTED-PH produces a JSON file containing the detailed results of the model fits and hypothesis tests.
