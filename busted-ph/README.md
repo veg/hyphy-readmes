@@ -115,7 +115,7 @@ Based on the combination of p-values (corrected for multiple testing), BUSTED-PH
 
 This section provides context for Large Language Models to assist in interpreting results.
 
-*   **[Analysis Prompt Template](LLM_PROMPT.md)**: A suggested prompt for users to ask an LLM about these results.
+*   **[Analysis Prompt Template](LLM_PROMPT.txt)**: A suggested prompt for users to ask an LLM about these results.
 *   **[JSON Field Descriptions](JSON_FIELDS.md)**: Descriptions of the fields in the JSON output.
 
 ## Example Data
