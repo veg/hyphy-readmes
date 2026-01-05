@@ -53,6 +53,20 @@ BUSTED-PH is implemented in HyPhy (version 2.5.73 or later).
 hyphy busted-ph --alignment path/to/alignment.fasta --tree path/to/tree.nwk --branches ForegroundLabel [options]
 ```
 
+## Example Data
+### Input
+- **Alignment**: `data/prestin.nex` (Contains alignment and tree labeled with `{ECHOLOCATORS}`)
+
+### Output Summary (Example)
+Running BUSTED-PH on `prestin.nex` with `{ECHOLOCATORS}` as foreground:
+
+*   **Test for Selection on FG**: p = 0.0168 (Significant)
+*   **Test for Selection on BG**: p = 0.5000 (Not significant)
+*   **Test for Difference**: p < 0.0001 (Significant)
+*   **Conclusion**: "Selection is associated with the phenotype / trait"
+
+This indicates that the *Prestin* gene is under positive selection specifically in the echolocating lineages, supporting the hypothesis of convergent evolution for echolocation.
+
 ### Key Arguments
 | Argument | Description | Default |
 | :--- | :--- | :--- |
@@ -117,17 +131,3 @@ This section provides context for Large Language Models to assist in interpretin
 
 *   **[Analysis Prompt Template](LLM_PROMPT.txt)**: A suggested prompt for users to ask an LLM about these results.
 *   **[JSON Field Descriptions](JSON_FIELDS.md)**: Descriptions of the fields in the JSON output.
-
-## Example Data
-### Input
-- **Alignment**: `data/prestin.nex` (Contains alignment and tree labeled with `{ECHOLOCATORS}`)
-
-### Output Summary (Example)
-Running BUSTED-PH on `prestin.nex` with `{ECHOLOCATORS}` as foreground:
-
-*   **Test for Selection on FG**: p = 0.0168 (Significant)
-*   **Test for Selection on BG**: p = 0.5000 (Not significant)
-*   **Test for Difference**: p < 0.0001 (Significant)
-*   **Conclusion**: "Selection is associated with the phenotype / trait"
-
-This indicates that the *Prestin* gene is under positive selection specifically in the echolocating lineages, supporting the hypothesis of convergent evolution for echolocation.
